@@ -10,7 +10,7 @@ public class Util {
     }
     public static void sleepToSimulateDataHeavyProcessing(long timeInMs){
         try{
-            Thread.sleep(timeInMs);
+            Thread.sleep((long)(Math.random()*timeInMs));
         }catch (Exception e){
             e.printStackTrace();
         }

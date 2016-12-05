@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.Date;
 
 /**
  * Created by Tanmoy on 6/17/2016.
  */
-public class AccidentDataProcessor {
+public class AccidentDataProcessor implements Runnable {
 
     private static final String FILE_PATH_1 = "src/main/resources/DfTRoadSafety_Accidents_2010.csv";
     private static final String FILE_PATH_2 = "src/main/resources/DfTRoadSafety_Accidents_2011.csv";
@@ -27,16 +28,22 @@ public class AccidentDataProcessor {
     private AccidentDataEnricher accidentDataEnricher = new AccidentDataEnricher();
     private AccidentDataWriter accidentDataWriter = new AccidentDataWriter();
 
-    private ExecutorService executorService = Executors.newFixedThreadPool(4);
+    private ExecutorService executorService = Executors.newFixedThreadPool(2);
 
     private List<String> fileQueue = new ArrayList<String>();
 
     private Logger log = LoggerFactory.getLogger(AccidentDataProcessor.class);
-
+    public AccidentDataProcessor(){
+        if(fileQueue.size() == 0) {
+            init();
+        }
+    }
 
     public void init(){
+
         fileQueue.add(FILE_PATH_1);
         fileQueue.add(FILE_PATH_2);
+
         fileQueue.add(FILE_PATH_3);
         fileQueue.add(FILE_PATH_4);
 
@@ -44,19 +51,16 @@ public class AccidentDataProcessor {
     }
 
     public void process(){
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                for (String accidentDataFile : fileQueue){
-                    log.info("Starting to process {} file ", accidentDataFile);
-                    accidentDataReader.init(DATA_PROCESSING_BATCH_SIZE, accidentDataFile);
-                    processFile();
-                }
-            }
-        });
-        executorService.shutdown();
+        for (String accidentDataFile : fileQueue){
+            log.info("Starting to process {} file ", accidentDataFile);
+            accidentDataReader.init(DATA_PROCESSING_BATCH_SIZE, accidentDataFile);
+            processFile();
+        }
     }
-
+    @Override
+    public void run() {
+        process();
+    }
 
 
     private void processFile(){
@@ -73,12 +77,21 @@ public class AccidentDataProcessor {
 
 
     public static void main(String[] args) {
-        AccidentDataProcessor dataProcessor = new AccidentDataProcessor();
+        //AccidentDataProcessor dataProcessor = new AccidentDataProcessor();
+        System.out.println("Process started in  : " + new Date());
         long start = System.currentTimeMillis();
-        dataProcessor.init();
-        dataProcessor.process();
+        //dataProcessor.init();
+        //dataProcessor.process();
+        ExecutorService executorService1 = Executors.newFixedThreadPool(4);
+        executorService1.execute(new AccidentDataProcessor());
+        executorService1.execute(new AccidentDataProcessor());
+        executorService1.execute(new AccidentDataProcessor());
+        executorService1.execute(new AccidentDataProcessor());
         long end = System.currentTimeMillis();
         System.out.println("Process finished in s : " + (end-start)/1000);
+        executorService1.shutdown();
+
+
     }
 
 }
