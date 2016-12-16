@@ -23,7 +23,6 @@ public class AccidentDataProcessor {
 
     private static final int DATA_PROCESSING_BATCH_SIZE = 10000;
     private static List<RoadAccidentDetails> roadAccidentDetailsList = new ArrayList<RoadAccidentDetails>();
-
     private static AccidentDataReader accidentDataReader = new AccidentDataReader();
     private static AccidentDataEnricher accidentDataEnricher = new AccidentDataEnricher();
     private static AccidentDataWriter accidentDataWriter = new AccidentDataWriter();
