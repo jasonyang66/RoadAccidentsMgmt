@@ -25,7 +25,7 @@ public class AccidentDataWriter {
     private boolean isHeaderWritten;
     private static final Object [] FILE_HEADER = {"Accident_Index","Longitude","Latitude","Police_Force","Accident_Severity","Number_of_Vehicles","Number_of_Casualties","Date","Time","Local_Authority_(District)","LightCondition","WeatherCondition","RoadSafeCondition","Police_Force_Contact"};
     private Logger log = LoggerFactory.getLogger(AccidentDataWriter.class);
-
+    private Object lock = new Object();
     public void init(String dataFileName){
         this.dataFileName = dataFileName;
         try {
@@ -41,20 +41,54 @@ public class AccidentDataWriter {
         }
     }
 
+    public void writeAccidentData(RoadAccidentDetails details) {
+        try {
+            if (!isHeaderWritten){
+                csvFilePrinter.printRecord(FILE_HEADER);
+                isHeaderWritten = true;
+            }
+            csvFilePrinter.printRecord(getCsvRecord(details));
+            log.info("write file number accident id is "+details.getAccidentId());
+            //Util.sleepToSimulateDataHeavyProcessing();
+
+        } catch (IOException e) {
+            log.error("Failed to write accidentDetails to file {}", dataFileName);
+            throw new RuntimeException("Failed to write accidentDetails to file " + dataFileName, e);
+        } finally {
+            try {
+                csvFilePrinter.flush();
+            } catch (IOException e) {
+
+            }
+        }
+    }
+
     public void writeAccidentData(List<RoadAccidentDetails> accidentDetailsList){
         try {
             if (!isHeaderWritten){
                 csvFilePrinter.printRecord(FILE_HEADER);
                 isHeaderWritten = true;
             }
-            for (RoadAccidentDetails accidentDetails : accidentDetailsList){
-                csvFilePrinter.printRecord(getCsvRecord(accidentDetails));
+            synchronized (lock) {
+                for (RoadAccidentDetails accidentDetails : accidentDetailsList) {
+                    csvFilePrinter.printRecord(getCsvRecord(accidentDetails));
+                }
+                log.info("write file number is "+accidentDetailsList.size());
+
             }
+
+
             Util.sleepToSimulateDataHeavyProcessing();
-            csvFilePrinter.flush();
+
         } catch (IOException e) {
             log.error("Failed to write accidentDetails to file {}", dataFileName);
             throw new RuntimeException("Failed to write accidentDetails to file " + dataFileName, e);
+        } finally {
+            try {
+                csvFilePrinter.flush();
+            } catch (IOException e) {
+
+            }
         }
     }
 

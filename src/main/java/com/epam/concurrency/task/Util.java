@@ -6,7 +6,7 @@ package com.epam.concurrency.task;
 public class Util {
 
     public static void sleepToSimulateDataHeavyProcessing(){
-        sleepToSimulateDataHeavyProcessing(1000 * 1);
+        sleepToSimulateDataHeavyProcessing(500 * 1);
     }
     public static void sleepToSimulateDataHeavyProcessing(long timeInMs){
         try{

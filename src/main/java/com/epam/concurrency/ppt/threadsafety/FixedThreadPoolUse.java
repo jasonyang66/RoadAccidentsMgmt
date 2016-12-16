@@ -1,7 +1,6 @@
 package com.epam.concurrency.ppt.threadsafety;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 /**
  * Created by yangyi on 5/12/16.
