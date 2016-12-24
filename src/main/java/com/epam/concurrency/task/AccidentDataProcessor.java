@@ -21,7 +21,7 @@ public class AccidentDataProcessor {
 
     private static final String OUTPUT_FILE_PATH = "target/DfTRoadSafety_Accidents_consolidated.csv";
 
-    private static final int DATA_PROCESSING_BATCH_SIZE = 10000;
+    private static final int DATA_PROCESSING_BATCH_SIZE = 100000;
     private static List<RoadAccidentDetails> roadAccidentDetailsList = new ArrayList<RoadAccidentDetails>();
     private static AccidentDataReader accidentDataReader = new AccidentDataReader();
     private static AccidentDataEnricher accidentDataEnricher = new AccidentDataEnricher();
@@ -35,6 +35,10 @@ public class AccidentDataProcessor {
         if(fileQueue.size() == 0) {
             init();
         }
+    }
+
+    public static BlockingQueue<RoadAccidentDetails> getQueue() {
+        return queue;
     }
 
     public void init(){

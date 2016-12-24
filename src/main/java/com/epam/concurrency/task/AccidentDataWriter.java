@@ -61,27 +61,6 @@ public class AccidentDataWriter {
 	}
     }
 
-    public void writeAccidentData(RoadAccidentDetails details) {
-        try {
-            if (!isHeaderWritten){
-                csvFilePrinter.printRecord(FILE_HEADER);
-                isHeaderWritten = true;
-            }
-            csvFilePrinter.printRecord(getCsvRecord(details));
-            log.info("write file number accident id is "+details.getAccidentId());
-            //Util.sleepToSimulateDataHeavyProcessing();
-
-        } catch (IOException e) {
-            log.error("Failed to write accidentDetails to file {}", dataFileName);
-            throw new RuntimeException("Failed to write accidentDetails to file " + dataFileName, e);
-        } finally {
-            try {
-                csvFilePrinter.flush();
-            } catch (IOException e) {
-
-            }
-        }
-    }
 
 
     public void writeAccidentData(List<RoadAccidentDetails> accidentDetailsList){
