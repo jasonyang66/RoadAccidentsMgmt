@@ -60,9 +60,7 @@ public class AccidentDataReader {
                 roadAccidentBatch.add(roadAccidentItem);
                 recordCountInCurrBatch++;
             }
-            if("201020S005950".equals(roadAccidentItem.getAccidentId())) {
-                System.out.println("last line");
-            }
+
         }
 
         if(recordCountInCurrBatch != 0){
