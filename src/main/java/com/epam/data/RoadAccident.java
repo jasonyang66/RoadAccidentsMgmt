@@ -1,5 +1,9 @@
 package com.epam.data;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+
+
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -7,7 +11,9 @@ import java.time.LocalTime;
 /**
  * Contains information about one road accident
  */
-public class RoadAccident {
+
+public class RoadAccident implements Serializable {
+
     private String accidentId;
     private float longitude;
     private float latitude;
