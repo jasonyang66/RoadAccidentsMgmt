@@ -19,13 +19,23 @@ public class AccidentJpaEntity implements Serializable {
     }
 
     public AccidentJpaEntity(){}
-    public AccidentJpaEntity(String policeForce) {
+
+    public AccidentJpaEntity(String policeForce){
         this.policeForce = policeForce;
+    }
+
+    public AccidentJpaEntity(String policeForce, String weatherCondition, String accidentYear) {
+        this.policeForce = policeForce;
+        this.weatherCondition = weatherCondition;
+        this.accidentYear = accidentYear;
     }
     @Id
     @GeneratedValue
     private Long accidentId;
     private String policeForce;
+
+    private String weatherCondition;
+    private String accidentYear;
 
     public Accident toAccident() {
         Accident accident = new Accident();

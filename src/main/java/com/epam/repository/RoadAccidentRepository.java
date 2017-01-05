@@ -3,7 +3,9 @@ package com.epam.repository;
 
 import com.epam.entity.AccidentJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 
 
 /**
@@ -12,5 +14,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoadAccidentRepository extends JpaRepository<AccidentJpaEntity,Long> {
 
-    //Accident findOne(Long id);
+    List<AccidentJpaEntity> findByPoliceForce(String policeForce);
+    long countByPoliceForce(String policeForce);
+
 }
