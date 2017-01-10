@@ -26,6 +26,7 @@ public class AccidentDataWriter {
     private static final Object [] FILE_HEADER = {"Accident_Index","Longitude","Latitude","Police_Force","Accident_Severity","Number_of_Vehicles","Number_of_Casualties","Date","Time","Local_Authority_(District)","LightCondition","WeatherCondition","RoadSafeCondition","Police_Force_Contact"};
     private Logger log = LoggerFactory.getLogger(AccidentDataWriter.class);
     private Object lock = new Object();
+
     public void init(String dataFileName){
         this.dataFileName = dataFileName;
         try {
