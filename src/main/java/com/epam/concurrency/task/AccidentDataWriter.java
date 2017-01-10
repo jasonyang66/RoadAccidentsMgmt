@@ -48,8 +48,6 @@ public class AccidentDataWriter {
                 isHeaderWritten = true;
             }
             csvFilePrinter.printRecord(getCsvRecord(details));
-            //log.info("write file number accident id is "+details.getAccidentId());
-            //Util.sleepToSimulateDataHeavyProcessing();
 
         } catch (IOException e) {
             log.error("Failed to write accidentDetails to file {}", dataFileName);

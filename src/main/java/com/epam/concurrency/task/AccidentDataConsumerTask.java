@@ -5,11 +5,11 @@ import java.util.concurrent.BlockingQueue;
 /**
  * Created by yangyi on 10/1/17.
  */
-public class AccidentDataConsumer implements Runnable {
+public class AccidentDataConsumerTask implements Runnable {
     private BlockingQueue<RoadAccidentDetails> queue;
     private final AccidentDataWriter accidentDataWriter = new AccidentDataWriter();
     private static final String OUTPUT_FILE_PATH = "target/DfTRoadSafety_Accidents_consolidated.csv";
-    public AccidentDataConsumer(BlockingQueue<RoadAccidentDetails> queue) {
+    public AccidentDataConsumerTask(BlockingQueue<RoadAccidentDetails> queue) {
         this.queue = queue;
         accidentDataWriter.init(OUTPUT_FILE_PATH);
     }
@@ -22,12 +22,12 @@ public class AccidentDataConsumer implements Runnable {
                     accidentDataWriter.writeAccidentData(details);
                 }
             }catch (InterruptedException e) {
-
+                System.out.println("InterruptedException: "+e.getMessage());
             }catch (Exception e) {
-
+                System.out.println("Exception : "+e.getMessage());
             }
             finally {
-                return;
+
             }
         }
    }
